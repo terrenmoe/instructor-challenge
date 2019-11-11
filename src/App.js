@@ -44,13 +44,13 @@ class App extends React.Component {
         <hr />
         <AddInstructor addInstructor={this.props.addInstructor} />
         <hr />
-        <instructorsList instructors={this.props.instructors} />
+        <InstructorsList instructors={this.props.instructors} />
        </div>
      )
   }
 }
 
-class instructorsList extends React.Component {
+class InstructorsList extends React.Component {
 
   render() {
     return (
