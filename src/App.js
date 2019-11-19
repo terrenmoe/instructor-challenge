@@ -1,6 +1,10 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { createStore } from 'redux';
 import { connect } from 'react-redux';
+import {
+  func, string, arrayOf, shapeOf,
+} from 'prop-types';
 
 import './App.css';
 
@@ -60,6 +64,16 @@ function App(props) {
   );
 }
 
+App.propTypes = {
+  addInstructor: func.isRequired,
+  instructors: arrayOf(shapeOf({
+    name: string,
+    id: string,
+    color: string,
+    course: string,
+  })).isRequired,
+};
+
 function InstructorsList(props) {
   const { instructors } = props;
   return (
@@ -74,6 +88,15 @@ function InstructorsList(props) {
     </ul>
   );
 }
+
+InstructorsList.propTypes = {
+  instructors: arrayOf(shapeOf({
+    name: string,
+    id: string,
+    color: string,
+    course: string,
+  })).isRequired,
+};
 
 class AddInstructor extends Component {
   constructor(props) {
@@ -116,6 +139,10 @@ class AddInstructor extends Component {
   }
 }
 
+AddInstructor.propTypes = {
+  addInstructor: func.isRequired,
+};
+
 function Instructor(props) {
   const { instructor: { color, name, course } } = props;
   const background = `#${(Math.abs(parseInt(color, 16) - 16777215)).toString(16)}`;
@@ -129,6 +156,15 @@ function Instructor(props) {
     </p>
   );
 }
+
+Instructor.propTypes = {
+  instructor: shapeOf({
+    name: string,
+    id: string,
+    color: string,
+    course: string,
+  }).isRequired,
+};
 
 /* ACTION TYPE */
 const ADD_INSTRUCTOR = 'ADD_INSTRUCTOR';
@@ -162,11 +198,7 @@ const Reducer = (state = INSTRUCTORS, action) => {
 
 export const store = createStore(Reducer, INSTRUCTORS);
 
-const mapStateToProps = (state) => {
-  return {
-    instructors: state
-  };
-};
+const mapStateToProps = (state) => ({ instructors: state });
 
 const mapDispatchToProps = (dispatch) => ({
   addInstructor: (name, course) => dispatch(addInstructor(name, course)),
